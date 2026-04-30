@@ -1,35 +1,39 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import Lightbox from "yet-another-react-lightbox";
+import Counter from "yet-another-react-lightbox/plugins/counter";
 import "yet-another-react-lightbox/styles.css";
+import "yet-another-react-lightbox/plugins/counter.css";
 
 export const Route = createFileRoute("/gallery")({
   component: GalleryPage,
 });
 
-// -------------------------------------------------------------------
-// Tipagem
-// -------------------------------------------------------------------
 interface Photo {
   src: string;
   alt: string;
-  width: number;
-  height: number;
 }
 
-// -------------------------------------------------------------------
-// Dados — substitua pelos caminhos reais das fotos da ONG.
-// Coloque as imagens em /public/pets/ e referencie como abaixo.
-// -------------------------------------------------------------------
-const ALL_PHOTOS: Photo[] = Array.from({ length: 24 }, (_, i) => ({
-  src: `/pets/pet-${String(i + 1).padStart(2, "0")}.jpg`,
-  alt: `Animal acolhido pela SJPA — foto ${i + 1}`,
-  width: 1200,
-  height: 900,
-}));
+// Cloudinary helper
+// Substitua CLOUD_NAME pelo nome da conta Cloudinary da ONG.
+// Cada foto é referenciada pelo seu public_id no Cloudinary.
+// A transformação w_1200,f_webp,q_auto é aplicada automaticamente.
+
+const CLOUD_NAME = "sjpa"; // <- trocar pelo nome real
+
+function cloudinaryUrl(publicId: string, width = 1200) {
+  return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_${width},f_webp,q_auto/${publicId}`;
+}
+
+// Lista de fotos — adicione os public_ids das fotos no Cloudinary.
+// Exemplo: se você subiu "pets/pet-001.jpg", o public_id é "pets/pet-001"
+const ALL_PHOTOS: Photo[] = [
+  { src: cloudinaryUrl("pets/pet-001"), alt: "Animal acolhido pela SJPA" },
+  { src: cloudinaryUrl("pets/pet-002"), alt: "Animal acolhido pela SJPA" },
+  { src: cloudinaryUrl("pets/pet-003"), alt: "Animal acolhido pela SJPA" },
+];
 
 const PAGE_SIZE = 24;
-
 const DONATION_URL = import.meta.env.VITE_DONATION_URL ?? "#";
 
 function GalleryPage() {
@@ -43,6 +47,15 @@ function GalleryPage() {
 
   const hasMore = visiblePhotos.length < ALL_PHOTOS.length;
 
+  const slides = useMemo(
+    () =>
+      ALL_PHOTOS.map((photo) => ({
+        src: photo.src,
+        alt: photo.alt,
+      })),
+    []
+  );
+
   return (
     <>
       <section className="border-b border-stone-100 px-6 py-14 text-center">
@@ -53,8 +66,8 @@ function GalleryPage() {
           Conheça nossos animais
         </h1>
         <p className="mx-auto max-w-xl text-stone-500">
-          Cada foto é uma história de resgate e esperança.
-          São mais de 450 animais esperando por um lar cheio de amor.
+          Cada foto é uma história de resgate e esperança. São mais de 450
+          animais esperando por um lar cheio de amor.
         </p>
       </section>
 
@@ -65,10 +78,13 @@ function GalleryPage() {
               key={photo.src}
               onClick={() => setLightboxIndex(index)}
               className="group relative aspect-square overflow-hidden rounded-xl bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-700"
-              aria-label={photo.alt}
+              aria-label={`Abrir foto ${index + 1} — ${photo.alt}`}
             >
               <img
-                src={photo.src}
+                src={cloudinaryUrl(
+                  photo.src.split("/").pop()?.replace(".webp", "") ?? "",
+                  400
+                )}
                 alt={photo.alt}
                 loading="lazy"
                 decoding="async"
@@ -120,7 +136,9 @@ function GalleryPage() {
         open={lightboxIndex >= 0}
         index={lightboxIndex}
         close={() => setLightboxIndex(-1)}
-        slides={ALL_PHOTOS}
+        slides={slides}
+        plugins={[Counter]}
+        counter={{ container: { style: { top: 0, bottom: "unset" } } }}
         on={{
           view: ({ index }) => setLightboxIndex(index),
         }}
