@@ -118,15 +118,13 @@ function HomePage() {
                 mantidos apenas com a generosidade de pessoas como você.
               </p>
               <div className="flex flex-wrap gap-3">
-                <a
-                  href={DONATION_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to="/donate"
                   className="inline-flex items-center gap-2 rounded-full bg-green-700 px-7 py-3 text-sm font-medium text-white transition-all hover:bg-green-800 active:scale-95"
                 >
                   <Heart className="h-4 w-4" />
                   Fazer uma doação
-                </a>
+                </Link>
                 <Link
                   to="/gallery"
                   className="inline-block rounded-full border border-stone-300 px-7 py-3 text-sm font-medium text-stone-700 transition-all hover:border-stone-400 hover:bg-white active:scale-95"
@@ -315,15 +313,13 @@ function HomePage() {
             em um futuro onde todos os animais tenham a chance de viver com
             dignidade e amor.
           </p>
-          <a
-            href={DONATION_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/donate"
             className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-medium text-green-800 transition-all hover:bg-green-50 active:scale-95"
           >
             <Heart className="h-4 w-4" />
             Quero fazer uma doação
-          </a>
+          </Link>
         </div>
       </section>
     </>

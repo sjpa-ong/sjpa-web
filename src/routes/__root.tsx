@@ -44,14 +44,12 @@ function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <a
-            href={DONATION_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/donate"
             className="rounded-full bg-green-700 px-5 py-2 text-sm font-medium text-white transition-all hover:bg-green-800 active:scale-95"
           >
             Doe agora
-          </a>
+          </Link>
 
           <button
             className="flex items-center md:hidden"
