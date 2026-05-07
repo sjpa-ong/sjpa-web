@@ -5,6 +5,23 @@ import Counter from "yet-another-react-lightbox/plugins/counter";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/counter.css";
 
+import cat1 from "../assets/pets/cats/cat1.svg";
+import cat2 from "../assets/pets/cats/cat2.svg";
+import cat3 from "../assets/pets/cats/cat3.svg";
+import cat4 from "../assets/pets/cats/cat4.svg";
+import cat5 from "../assets/pets/cats/cat5.svg";
+import cat6 from "../assets/pets/cats/cat6.svg";
+import cat7 from "../assets/pets/cats/cat7.svg";
+import cat8 from "../assets/pets/cats/cat8.svg";
+import dog1 from "../assets/pets/dogs/dog1.svg";
+import dog2 from "../assets/pets/dogs/dog2.svg";
+import dog3 from "../assets/pets/dogs/dog3.svg";
+import dog4 from "../assets/pets/dogs/dog4.svg";
+import dog5 from "../assets/pets/dogs/dog5.svg";
+import dog6 from "../assets/pets/dogs/dog6.svg";
+import dog7 from "../assets/pets/dogs/dog7.svg";
+import dog8 from "../assets/pets/dogs/dog8.svg";
+
 export const Route = createFileRoute("/gallery")({
   component: GalleryPage,
 });
@@ -14,23 +31,24 @@ interface Photo {
   alt: string;
 }
 
-// Cloudinary helper
-// Substitua CLOUD_NAME pelo nome da conta Cloudinary da ONG.
-// Cada foto é referenciada pelo seu public_id no Cloudinary.
-// A transformação w_1200,f_webp,q_auto é aplicada automaticamente.
-
-const CLOUD_NAME = "sjpa"; // <- trocar pelo nome real
-
-function cloudinaryUrl(publicId: string, width = 1200) {
-  return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_${width},f_webp,q_auto/${publicId}`;
-}
-
-// Lista de fotos — adicione os public_ids das fotos no Cloudinary.
-// Exemplo: se você subiu "pets/pet-001.jpg", o public_id é "pets/pet-001"
+// Fotos dos animais acolhidos pela SJPA — intercaladas entre gatos e cães
 const ALL_PHOTOS: Photo[] = [
-  { src: cloudinaryUrl("pets/pet-001"), alt: "Animal acolhido pela SJPA" },
-  { src: cloudinaryUrl("pets/pet-002"), alt: "Animal acolhido pela SJPA" },
-  { src: cloudinaryUrl("pets/pet-003"), alt: "Animal acolhido pela SJPA" },
+  { src: cat1, alt: "Gatinha acolhida pela SJPA" },
+  { src: dog1, alt: "Cachorrinho acolhido pela SJPA" },
+  { src: cat2, alt: "Gatinho acolhido pela SJPA" },
+  { src: dog2, alt: "Cãozinho acolhido pela SJPA" },
+  { src: cat3, alt: "Gatinha acolhida pela SJPA" },
+  { src: dog3, alt: "Cachorrinha acolhida pela SJPA" },
+  { src: cat4, alt: "Gatinho acolhido pela SJPA" },
+  { src: dog4, alt: "Cãozinho acolhido pela SJPA" },
+  { src: cat5, alt: "Gatinha acolhida pela SJPA" },
+  { src: dog5, alt: "Cachorrinho acolhido pela SJPA" },
+  { src: cat6, alt: "Gatinho acolhido pela SJPA" },
+  { src: dog6, alt: "Cãozinho acolhido pela SJPA" },
+  { src: cat7, alt: "Gatinha acolhida pela SJPA" },
+  { src: dog7, alt: "Cachorrinha acolhida pela SJPA" },
+  { src: cat8, alt: "Gatinho acolhido pela SJPA" },
+  { src: dog8, alt: "Cãozinho acolhido pela SJPA" },
 ];
 
 const PAGE_SIZE = 24;
@@ -81,10 +99,7 @@ function GalleryPage() {
               aria-label={`Abrir foto ${index + 1} — ${photo.alt}`}
             >
               <img
-                src={cloudinaryUrl(
-                  photo.src.split("/").pop()?.replace(".webp", "") ?? "",
-                  400
-                )}
+                src={photo.src}
                 alt={photo.alt}
                 loading="lazy"
                 decoding="async"
