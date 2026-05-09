@@ -2,6 +2,15 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Heart, PawPrint, Home, Stethoscope, Star } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
+import heroImg from "../assets/pets/dogs/dog1.svg";
+import aboutImg from "../assets/pets/cats/cat1.svg";
+import previewCat2 from "../assets/pets/cats/cat2.svg";
+import previewDog3 from "../assets/pets/dogs/dog3.svg";
+import previewCat4 from "../assets/pets/cats/cat4.svg";
+import previewDog5 from "../assets/pets/dogs/dog5.svg";
+import previewCat6 from "../assets/pets/cats/cat6.svg";
+import previewDog7 from "../assets/pets/dogs/dog7.svg";
+
 export const Route = createFileRoute("/")({
   component: HomePage,
 });
@@ -80,12 +89,14 @@ const HOW_IT_WORKS = [
   },
 ];
 
-// Fotos de preview — substitua pelos public_ids reais do Cloudinary
-const CLOUD_NAME = "sjpa";
-const PREVIEW_PHOTOS = Array.from({ length: 6 }, (_, i) => ({
-  src: `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_400,f_webp,q_auto/pets/pet-00${i + 1}`,
-  alt: `Animal acolhido pela SJPA — foto ${i + 1}`,
-}));
+const PREVIEW_PHOTOS = [
+  { src: previewCat2, alt: "Gatinha acolhida pela SJPA" },
+  { src: previewDog3, alt: "Cachorrinho acolhido pela SJPA" },
+  { src: previewCat4, alt: "Gatinho acolhido pela SJPA" },
+  { src: previewDog5, alt: "Cãozinho acolhido pela SJPA" },
+  { src: previewCat6, alt: "Gatinha acolhida pela SJPA" },
+  { src: previewDog7, alt: "Cachorrinha acolhida pela SJPA" },
+];
 
 function HomePage() {
   return (
@@ -107,15 +118,13 @@ function HomePage() {
                 mantidos apenas com a generosidade de pessoas como você.
               </p>
               <div className="flex flex-wrap gap-3">
-                <a
-                  href={DONATION_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to="/donate"
                   className="inline-flex items-center gap-2 rounded-full bg-green-700 px-7 py-3 text-sm font-medium text-white transition-all hover:bg-green-800 active:scale-95"
                 >
                   <Heart className="h-4 w-4" />
                   Fazer uma doação
-                </a>
+                </Link>
                 <Link
                   to="/gallery"
                   className="inline-block rounded-full border border-stone-300 px-7 py-3 text-sm font-medium text-stone-700 transition-all hover:border-stone-400 hover:bg-white active:scale-95"
@@ -128,7 +137,7 @@ function HomePage() {
             <div className="relative">
               <div className="aspect-4/3 overflow-hidden rounded-2xl bg-stone-200">
                 <img
-                  src={`https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_800,f_webp,q_auto/pets/hero`}
+                  src={heroImg}
                   alt="Animais acolhidos pela SJPA"
                   className="h-full w-full object-cover"
                   loading="eager"
@@ -166,7 +175,7 @@ function HomePage() {
 
             <div className="aspect-square overflow-hidden rounded-2xl bg-stone-100">
               <img
-                src={`https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_700,f_webp,q_auto/pets/about`}
+                src={aboutImg}
                 alt="Voluntários cuidando dos animais na SJPA"
                 className="h-full w-full object-cover"
                 loading="lazy"
@@ -304,15 +313,13 @@ function HomePage() {
             em um futuro onde todos os animais tenham a chance de viver com
             dignidade e amor.
           </p>
-          <a
-            href={DONATION_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to="/donate"
             className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-medium text-green-800 transition-all hover:bg-green-50 active:scale-95"
           >
             <Heart className="h-4 w-4" />
             Quero fazer uma doação
-          </a>
+          </Link>
         </div>
       </section>
     </>
